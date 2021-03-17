@@ -7,16 +7,21 @@ const port =process.env.PORT || 3000
 const publicDir =path.join(__dirname,'../public')
 
 app.use(express.static(publicDir))
+
+app.listen(port,()=>{
+    console.log('Server is up on port',port)
+})
+
 app.get('/',(req,res)=>{
     res.render('index')
 })
 
 //harcoded
-scrap.setup('iiitdm_jabalpur').then(
+scrap.setup('badminton_iiitdmjabalpur').then(()=>{
     console.log('Done')
-)
-
-
-app.listen(port,()=>{
-    console.log('Server is up on port',port)
+    //scrap.end(scrap.browser)
+}).catch((err)=>{
+    console.log(err)
+    //scrap.end(scrap.browser)
 })
+
