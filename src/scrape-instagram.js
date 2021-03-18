@@ -1,13 +1,15 @@
 const puppeteer = require('puppeteer');
 const fetch=require('node-fetch')
-const request=require('request')
+//const request=require('request')
+const axios=require('axios').default
 const fs=require('fs');
+const AdmZip = require('adm-zip');
 const { dir } = require('console');
 
 
 //const loginPopupClass="RnEpo  _Yhr4    ";
 //const imageClass=""
-//const numberOfPostsClass=""
+const numberOfPostsClass="g47SY "   // "document.getElementsByClassName('g47SY ')[0].outerText == number of posts"
 //const loginToInstagramCloseButtonClass ="dCJp8 afkep xqRnw"
 
 async function setup(username) {
@@ -24,23 +26,29 @@ async function setup(username) {
         await end(browser)
         throw Error('This account is private!')
     } else {
+        var postsAvailable=await page.evaluate(()=>{
+            return  parseInt(document.getElementsByClassName("g47SY ")[0].innerText)
+            //console.log(this.postsAvailable)
+            //alert(this.postsAvailable)
+        })
+        var path="images/"+username+' -'+postsAvailable+' posts'
+        
         const data=await scrollAndFetchUrls(page)
         console.log(Object.keys(data.images).length)
-        //const directory=__dirname
-        const path="images/"+username
+        
         console.log(path)
         fs.mkdir(path,{recursive:true},(e)=>{
             console.log('Directory Created')
         })
         var num=1
         for(url in data.images){
-            //console.log(url)
             var altText=data.images[url]
             var title=num.toString()+'-'+getTitle(altText)
             await downloadImage({url,path,name:title})
             num++;
         }
         await end(browser)
+        createZIP(username+' -'+postsAvailable+' posts')
         return console.log('You can close now')
     }
 };
@@ -75,7 +83,7 @@ function getTitle(altText){
 
 async function scrollAndFetchUrls(page) {
     return await page.evaluate(async () => {
-        const postsAvailabe = document.getElementsByClassName("g47SY ")[0].innerText
+        const postsAvailable = document.getElementsByClassName("g47SY ")[0].innerText
         document.body.style="overflow:visible";
         const urls = [];
         const images={};
@@ -109,7 +117,7 @@ async function scrollAndFetchUrls(page) {
         });
         return {
             urls,
-            postsAvailabe,
+            postsAvailable,
             images
         };
     })
@@ -123,18 +131,25 @@ async function checkIfPrivate(page) {
 }
 
 async function downloadImage({url,path,name}){
-    // console.log(url)
-    // console.log(path)
-    // console.log(name)
-    request({url ,encoding:null},(err,res,buffer)=>{
-        try{
-            fs.writeFile(`${path}/${name}.jpeg`,buffer,()=>{
-                console.log(`${name} downloaded!`)
-            })
-        }catch{
-            console.log(err)
+    const buffer=(await axios.get(url)).data
+    fs.writeFile(`${path}/${name}.jpeg`,buffer,()=>{
+        console.log(`${name} downloaded!`)
+    })
+}
+
+function createZIP(folderName){
+    const zipFile = new AdmZip();
+    zipFile.addLocalFolder('./images/'+folderName,folderName)
+    console.log('Creating zip file')
+    fs.writeFileSync('./zipFiles/'+folderName+'.zip', zipFile.toBuffer());
+    console.log('Deleting Original Folder')
+    //TODO
+    //Delete Original Folder
+    fs.rmdir('./images/'+folderName,{recursive:true},(err)=>{
+        if(err){
+            throw err
         }
-        
+        console.log('./images/'+folderName+' Deleted !')
     })
 }
 

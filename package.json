@@ -11,7 +11,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "adm-zip": "^0.5.4",
+    "axios": "^0.21.1",
     "express": "^4.17.1",
+    "jszip": "^3.6.0",
     "node-fetch": "^2.6.1",
     "puppeteer": "^5.4.0",
     "request": "^2.88.2"
