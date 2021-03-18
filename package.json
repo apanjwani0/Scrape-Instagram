@@ -17,7 +17,8 @@
     "jszip": "^3.6.0",
     "node-fetch": "^2.6.1",
     "puppeteer": "^5.4.0",
-    "request": "^2.88.2"
+    "request": "^2.88.2",
+    "requirejs": "^2.3.6"
   },
   "devDependencies": {
     "nodemon": "^2.0.6"

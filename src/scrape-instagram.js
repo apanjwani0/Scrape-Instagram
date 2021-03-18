@@ -48,7 +48,8 @@ async function setup(username) {
             num++;
         }
         await end(browser)
-        createZIP(username+' -'+postsAvailable+' posts')
+        //createZIP(username+' -'+postsAvailable+' posts')
+        createZIP(username,postsAvailable)
         return console.log('You can close now')
     }
 };
@@ -137,11 +138,12 @@ async function downloadImage({url,path,name}){
     })
 }
 
-function createZIP(folderName){
-    const zipFile = new AdmZip();
-    zipFile.addLocalFolder('./images/'+folderName,folderName)
+const zipFile = new AdmZip();
+function createZIP(username,postsAvailable){
+    const folderName=username+' -'+postsAvailable+' posts'
+    zipFile.addLocalFolder('./images/'+folderName,username)
     console.log('Creating zip file')
-    fs.writeFileSync('./zipFiles/'+folderName+'.zip', zipFile.toBuffer());
+    fs.writeFileSync('./zipFiles/'+username+'.zip', zipFile.toBuffer());
     console.log('Deleting Original Folder')
     //TODO
     //Delete Original Folder

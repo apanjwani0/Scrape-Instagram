@@ -1,27 +1,37 @@
 <!DOCTYPE html>
 <html>
-    <header>
-        <title>Instagram-Scrapper</title>
-    </header>
+<header class="header">
+    <title>Instagram-Scrapper</title>
+    <script src="./index.cs" type="stylesheet"></script>
+</header>
 
-    <body>
-        <div class="top">
-            <h1>Download Instagram Images</h1>
+<body class="body">
+    <div class="top">
+        <h1>Download Instagram Images</h1>
+    </div>
+
+    <form method="POST" action="" class="form">
+        <div class="search-box" >
+            <label>Enter Username : </label>
+            <input type="text" placeholder="Of Public Profle only" required name="username" id="username">
         </div>
-        <div class="search-box">
-            <input type="text" placeholder="Enter username" required name="username">
-            <button>Get</button>
+        <div class="submit-button">
+            <button type="submit">Submit</button>
         </div>
-        <div class="warning-box">
-            <h4>The profile Should be Public</h4>
-        </div>
-        <div class="preview">
-            <h5>10 Posts availabe</h5>
-        </div>
-        <div class="download">
-            <button>Download</button>
-        </div>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
-        <script type="module" src="./index.js"></script>
-    </body>
+    </form>
+
+    <div class="warning-box">
+        <h4>The profile Should be Public</h4>
+    </div>
+    <div class="preview">
+        <h5>10 Posts availabe</h5>
+    </div>
+    <div class="download">
+        <button>Download</button>
+    </div>
+    <!-- <script data-main="scripts/main" src="scripts/require.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
+    <script type="module" src="./index.js"></script>
+</body>
+
 </html>
