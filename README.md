@@ -20,7 +20,7 @@ Title of that post-pic will be the Date+(number of people in that post, calculat
 1) Takes username as input
 2) Checks for an existing Zip file with that username -> if yes, downloads that file in browser
 3) Sets-up Puppeteer to launch
-4) Opens https://www.instagram.com/{username}
+4) Opens 'https://<span></span>www<span></span>.instagram<span></span>.com/{username}'
 5) Checks if the account is private -> if yes, ends process
 6) Scrolls through all posts and maps img.src with img.alt
 7) Creates a name for that post with img.alt
