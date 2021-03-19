@@ -25,21 +25,37 @@ app.get('/',(req,res)=>{
 app.post('/',(req,res)=>{
     console.log(req.body)
     var username=req.body.username
-    res.redirect('/')
     if(!fs.existsSync('./zipFiles/'+username+'.zip')){
         console.log('Getting Posts')
         scrap.setup(username).then(()=>{
             console.log('Done')
+            res.redirect('/'+username+'.zip')
             //scrap.end(scrap.browser)
         }).catch((err)=>{
             console.log(err)
+            res.redirect('/')
             //scrap.end(scrap.browser)
         })
     }else{
         console.log('File already exists')
+        res.redirect('/')
     }
 })
 
+app.get('/:username'+'.zip',(req,res)=>{
+    if(fs.existsSync('./zipFiles/'+req.params.username+'.zip')){
+        res.download('./zipFiles/'+req.params.username+'.zip',req.params.username+'.zip',(err)=>{
+            if(err){
+                console.error(err)
+            }
+        })
+        console.log('File ready to download')
+    }else{
+        console.log('File Does not exist')
+        res.redirect('/')
+    }
+    //res.redirect('/')
+})
 
 //harcoded
 

@@ -48,7 +48,6 @@ async function setup(username) {
             num++;
         }
         await end(browser)
-        //createZIP(username+' -'+postsAvailable+' posts')
         createZIP(username,postsAvailable)
         return console.log('You can close now')
     }
@@ -132,20 +131,21 @@ async function checkIfPrivate(page) {
 }
 
 async function downloadImage({url,path,name}){
-    const buffer=(await axios.get(url)).data
+    const buffer=(await axios.get(url,{responseType:'arraybuffer'})).data
     fs.writeFile(`${path}/${name}.jpeg`,buffer,()=>{
         console.log(`${name} downloaded!`)
     })
 }
 
-const zipFile = new AdmZip();
+
 function createZIP(username,postsAvailable){
+    const zipFile = new AdmZip();
     const folderName=username+' -'+postsAvailable+' posts'
-    zipFile.addLocalFolder('./images/'+folderName,username)
+    zipFile.addLocalFolder('./images/'+folderName,folderName)
     console.log('Creating zip file')
     fs.writeFileSync('./zipFiles/'+username+'.zip', zipFile.toBuffer());
     console.log('Deleting Original Folder')
-    //TODO
+    
     //Delete Original Folder
     fs.rmdir('./images/'+folderName,{recursive:true},(err)=>{
         if(err){
