@@ -15,7 +15,7 @@ This is a basic web-scraping tool for Instagram-users.
 Enter any Public Profile username, and download a zip of all posts of that profile.
 Title of that post-pic will be the Date+(number of people in that post, calculated by Instagram's AI model).
 
-##Flow :
+## Flow :
 
 1) Takes username as input
 2) Checks for an existing Zip file with that username -> if yes, downloads that file in browser
