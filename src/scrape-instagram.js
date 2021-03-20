@@ -20,13 +20,17 @@ const numberOfPostsClass="g47SY "   // "document.getElementsByClassName('g47SY '
 async function setup(username) {
     const URL=`https://www.instagram.com/${username}/`;
     const browser = await puppeteer.launch({headless:true,args: [
-        '--no-sandbox',
+        "--incognito",
+        "--no-sandbox",
+        "--single-process",
+        "--no-zygote"
       ], });  //headless: false to see chromium
     const page = await browser.newPage();
-
-    
+    await page.setViewport({ width: 800, height: 600 })
 
     await page.goto(URL);
+    await page.waitForTimeout(500)
+
     await page.waitForSelector('ul[class~=k9GMp ]');
     const privateAccount = await checkIfPrivate(page)
             //Account not public 
