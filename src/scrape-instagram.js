@@ -27,7 +27,7 @@ async function setup(username) {
     
 
     await page.goto(URL);
-
+    await page.waitForSelector('ul[class~=k9GMp ]');
     const privateAccount = await checkIfPrivate(page)
             //Account not public 
             // "rkEop" class has a header which says "this acc is private" on instagram
