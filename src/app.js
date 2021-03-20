@@ -1,9 +1,10 @@
 const express=require('express')
 const scrap =require('./scrape-instagram')
 const fs=require('fs');
+const deleteZips=require('./deleteZips')
 
 const app=express()
-
+deleteZips.deleteExtra()
 
 const path=require('path')
 const { fstat } = require('fs')
@@ -38,7 +39,8 @@ app.post('/',(req,res)=>{
         })
     }else{
         console.log('File already exists')
-        res.redirect('/')
+        //res.redirect('/')
+        res.redirect('/'+username+'.zip')
     }
 })
 
@@ -48,6 +50,7 @@ app.get('/:username'+'.zip',(req,res)=>{
             if(err){
                 console.error(err)
             }
+            deleteZips.deleteExtra()
         })
         console.log('File ready to download')
     }else{

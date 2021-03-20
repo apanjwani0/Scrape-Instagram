@@ -1,4 +1,7 @@
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-extra');
+const StealthPlugin = require('puppeteer-extra-plugin-stealth');
+puppeteer.use(StealthPlugin())
+
 const fetch=require('node-fetch')
 //const request=require('request')
 const axios=require('axios').default
@@ -14,7 +17,7 @@ const numberOfPostsClass="g47SY "   // "document.getElementsByClassName('g47SY '
 
 async function setup(username) {
     const URL=`https://www.instagram.com/${username}/`;
-    const browser = await puppeteer.launch({ headless: false });
+    const browser = await puppeteer.launch({ headless: true });  //headless: false to see chromium
     const page = await browser.newPage();
     await page.goto(URL);
 
@@ -133,7 +136,7 @@ async function checkIfPrivate(page) {
 async function downloadImage({url,path,name}){
     const buffer=(await axios.get(url,{responseType:'arraybuffer'})).data
     fs.writeFile(`${path}/${name}.jpeg`,buffer,()=>{
-        console.log(`${name} downloaded!`)
+        //console.log(`${name} downloaded!`)
     })
 }
 
