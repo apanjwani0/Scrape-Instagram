@@ -2,6 +2,8 @@ const puppeteer = require('puppeteer-extra');
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 puppeteer.use(StealthPlugin())
 
+//const puppeteer=require('puppeteer')
+
 const fetch=require('node-fetch')
 //const request=require('request')
 const axios=require('axios').default
@@ -17,11 +19,13 @@ const numberOfPostsClass="g47SY "   // "document.getElementsByClassName('g47SY '
 
 async function setup(username) {
     const URL=`https://www.instagram.com/${username}/`;
-    const browser = await puppeteer.launch({ headless: true,args: [
+    const browser = await puppeteer.launch({headless:true,args: [
         '--no-sandbox',
-        '--disable-setuid-sandbox',
       ], });  //headless: false to see chromium
     const page = await browser.newPage();
+
+    
+
     await page.goto(URL);
 
     const privateAccount = await checkIfPrivate(page)
