@@ -17,7 +17,10 @@ const numberOfPostsClass="g47SY "   // "document.getElementsByClassName('g47SY '
 
 async function setup(username) {
     const URL=`https://www.instagram.com/${username}/`;
-    const browser = await puppeteer.launch({ headless: true });  //headless: false to see chromium
+    const browser = await puppeteer.launch({ headless: true,args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+      ], });  //headless: false to see chromium
     const page = await browser.newPage();
     await page.goto(URL);
 

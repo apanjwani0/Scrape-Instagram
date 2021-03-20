@@ -17,7 +17,7 @@
     "jszip": "^3.6.0",
     "moment": "^2.29.1",
     "node-fetch": "^2.6.1",
-    "puppeteer": "^5.4.0",
+    "puppeteer": "^8.0.0",
     "puppeteer-extra": "^3.1.18",
     "puppeteer-extra-plugin-stealth": "^2.7.6",
     "request": "^2.88.2",
