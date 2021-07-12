@@ -21,7 +21,7 @@ async function setup(username) {
 
 	const URL = `https://www.instagram.com/${username}/`;
 	const browser = await puppeteer.launch({
-		headless: false,
+		headless: true,
 		args: [
 			// "--incognito",
 			"--no-sandbox",

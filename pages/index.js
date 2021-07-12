@@ -1,5 +1,6 @@
 import { Navbar } from "../components/Navbar.js";
 import Head from "next/head";
+import download from 'downloadjs';
 
 function HomePage() {
 	const submitUsername = async (event) => {
@@ -18,15 +19,13 @@ function HomePage() {
         method: 'POST'
       }
     )
-    console.log("res-", res);
-    if (res.status == 200) {
-      res.writeHead(301, {
-        Location: res.url
-      });
-      res.end();
-    }
     const result = await res.json();
     console.log("result-", result);
+    if (result.success) {
+      const res = await fetch(`http://localhost:3000/${result.username}.zip`);
+      const blob = await res.blob();
+      download(blob, `${username}.zip`);
+    }
 	};
 
 	return (

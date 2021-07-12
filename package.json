@@ -19,6 +19,7 @@
 		"axios": "^0.21.1",
 		"bootstrap": "^5.0.2",
 		"dotenv": "^10.0.0",
+		"downloadjs": "^1.4.7",
 		"express": "^4.17.1",
 		"jszip": "^3.6.0",
 		"moment": "^2.29.1",

@@ -35,7 +35,11 @@ app
 					.setup(username)
 					.then(() => {
 						console.log("Done");
-						res.redirect("/" + username + ".zip");
+						// res.redirect("/" + username + ".zip");
+            return res.json({
+              success: true,
+              username,
+            });
 						//scrap.end(scrap.browser)
 					})
 					.catch((err) => {
@@ -46,12 +50,16 @@ app
 			} else {
 				console.log("File already exists");
 				//res.redirect('/')
-				res.redirect("/" + username + ".zip");
+				// res.redirect("/" + username + ".zip");
+        return res.json({
+          success: true,
+          username,
+        });
 			}
 		});
 
 		server.get("/:username" + ".zip", (req, res) => {
-			if (fs.existsSync("./zipFiles/" + req.params.username + ".zip")) {
+      if (fs.existsSync("./zipFiles/" + req.params.username + ".zip")) {
 				res.download(
 					"./zipFiles/" + req.params.username + ".zip",
 					req.params.username + ".zip",
