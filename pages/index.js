@@ -1,12 +1,39 @@
 import { Navbar } from "../components/Navbar.js";
-import Head from 'next/head';
+import Head from "next/head";
 
 function HomePage() {
+	const submitUsername = async (event) => {
+		event.preventDefault(); // don't redirect the page
+		// where we'll add our form logic
+    const username = event.target.username.value
+    const res = await fetch(
+      `http://localhost:3000/`,
+      {
+        body: JSON.stringify({
+          username,
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        method: 'POST'
+      }
+    )
+    console.log("res-", res);
+    if (res.status == 200) {
+      res.writeHead(301, {
+        Location: res.url
+      });
+      res.end();
+    }
+    const result = await res.json();
+    console.log("result-", result);
+	};
+
 	return (
 		<div>
 			<Head>
 				<title>Instagram-Scrapper</title>
-				<link rel="icon" href="./images/logo.png" type="image/x-icon"/>
+				<link rel="icon" href="./images/logo.png" type="image/x-icon" />
 				<meta charset="utf-8" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 				<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -18,7 +45,7 @@ function HomePage() {
 				<Link rel="stylesheet" href="index.css"></Link>
 			</Headers> */}
 			<Navbar></Navbar>
-			<div class="container-fluid" style={{margin: "80px"}}>
+			<div class="container-fluid" style={{ margin: "80px" }}>
 				<h1>Download Instagram Posts</h1>
 			</div>
 
@@ -28,23 +55,24 @@ function HomePage() {
 						<h3 class="mb-0">Scrape Public Profile</h3>
 					</div>
 					<div class="card-body">
-						<form method="POST" action="" id="scrapeForm">
-							<fieldset>
-								<div class="form-group">
-									<label>Enter Username : </label>
-									<input
-										type="text"
-										placeholder="Public Profle only"
-										required
-										name="username"
-										id="username"
-										class="form-control"
-									/>
-								</div>
-								<button type="submit" class="btn btn-primary" id="scapeButton">
-									Submit
-								</button>
-							</fieldset>
+						<form
+							method="POST"
+							action=""
+							id="scrapeForm"
+							onSubmit={submitUsername}
+						>
+							<label>Enter Username : </label>
+							<input
+								type="text"
+								placeholder="Public Profle only"
+								required
+								name="username"
+								id="username"
+								class="form-control"
+							/>
+							<button type="submit" class="btn btn-primary" id="scapeButton">
+								Submit
+							</button>
 						</form>
 					</div>
 				</div>

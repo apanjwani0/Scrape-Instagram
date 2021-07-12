@@ -4,3 +4,4 @@ package-lock.json
 zipFiles/*
 !zipFiles/.gitkeep
 .next
+.env

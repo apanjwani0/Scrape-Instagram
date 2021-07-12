@@ -1,77 +1,87 @@
 const express = require("express");
 const next = require("next");
+require("dotenv").config();
 
-const scrap = require("./scrape-instagram");
 const fs = require("fs");
+const path = require("path");
+const { fstat } = require("fs");
+
 const deleteZips = require("./deleteZips");
+const scrap = require("./scrape-instagram");
 
-const port = process.env.PORT || 3000;
-const server = next({ port });
-server.prepare().then(() => {
-	const app = express();
-	deleteZips.deleteExtra();
+const PORT = process.env.PORT || 3000;
+const dev = process.env.NODE_ENV !== "production";
+const app = next({ dev });
+const handle = app.getRequestHandler();
 
-	const path = require("path");
-	const { fstat } = require("fs");
-	const port = process.env.PORT || 3000;
-	const publicDir = path.join(__dirname, "../public");
+app
+	.prepare()
+	.then(() => {
+		const server = express();
+		deleteZips.deleteExtra();
 
-	app.use(express.urlencoded({ extended: true }));
-	app.use(express.static(publicDir));
-	app.use(express.json());
+		const publicDir = path.join(__dirname, "../public");
 
-	app.listen(port, () => {
-		console.log("Server is up on port", port);
-	});
+		// server.use(express.urlencoded({ extended: true }));
+		// server.use(express.static(publicDir));
+		server.use(express.json());
 
-	app.get("/", (req, res) => {
-		res.render("index");
-	});
+		server.post("/", (req, res) => {
+			console.log(req.body);
+			var username = req.body.username;
+			if (!fs.existsSync("./zipFiles/" + username + ".zip")) {
+				console.log("Getting Posts");
+				scrap
+					.setup(username)
+					.then(() => {
+						console.log("Done");
+						res.redirect("/" + username + ".zip");
+						//scrap.end(scrap.browser)
+					})
+					.catch((err) => {
+						console.log(err);
+						res.redirect("/");
+						//scrap.end(scrap.browser)
+					});
+			} else {
+				console.log("File already exists");
+				//res.redirect('/')
+				res.redirect("/" + username + ".zip");
+			}
+		});
 
-	app.post("/", (req, res) => {
-		console.log(req.body);
-		var username = req.body.username;
-		if (!fs.existsSync("./zipFiles/" + username + ".zip")) {
-			console.log("Getting Posts");
-			scrap
-				.setup(username)
-				.then(() => {
-					console.log("Done");
-					res.redirect("/" + username + ".zip");
-					//scrap.end(scrap.browser)
-				})
-				.catch((err) => {
-					console.log(err);
-					res.redirect("/");
-					//scrap.end(scrap.browser)
-				});
-		} else {
-			console.log("File already exists");
-			//res.redirect('/')
-			res.redirect("/" + username + ".zip");
-		}
-	});
-
-	app.get("/:username" + ".zip", (req, res) => {
-		if (fs.existsSync("./zipFiles/" + req.params.username + ".zip")) {
-			res.download(
-				"./zipFiles/" + req.params.username + ".zip",
-				req.params.username + ".zip",
-				(err) => {
-					if (err) {
-						console.error(err);
+		server.get("/:username" + ".zip", (req, res) => {
+			if (fs.existsSync("./zipFiles/" + req.params.username + ".zip")) {
+				res.download(
+					"./zipFiles/" + req.params.username + ".zip",
+					req.params.username + ".zip",
+					(err) => {
+						if (err) {
+							console.error(err);
+						}
+						deleteZips.deleteExtra();
 					}
-					deleteZips.deleteExtra();
-				}
-			);
-			console.log("File ready to download");
-		} else {
-			console.log("File Does not exist");
-			res.redirect("/");
-		}
-		//res.redirect('/')
+				);
+				console.log("File ready to download");
+			} else {
+				console.log("File Does not exist");
+				res.redirect("/");
+			}
+			//res.redirect('/')
+    });
+
+    server.get("*", (req, res) => {
+			return handle(req, res);
+		});
+    
+    server.listen(PORT, () => {
+			console.log("Server is up on port", PORT);
+		});
+	})
+	.catch((err) => {
+		console.log(err);
+		process.exit(1);
 	});
-});
 
 //harcoded
 
@@ -79,6 +89,6 @@ server.prepare().then(() => {
 //     console.log('Done')
 //     //scrap.end(scrap.browser)
 // }).catch((err)=>{
-//     console.log(err)
+//   console.log("ERROR IN HARDCODED-", err);
 //     //scrap.end(scrap.browser)
 // })
