@@ -5,3 +5,4 @@ zipFiles/*
 !zipFiles/.gitkeep
 .next
 .env
+.dev.env

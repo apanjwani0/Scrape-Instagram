@@ -5,11 +5,9 @@
 	"main": "index.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"start-node": "node src/app.js",
-		"dev": "nodemon -w server src/app.js",
-		"dev-next": "next dev",
+		"dev": "NODE_ENV=Development nodemon -w server src/app.js",
 		"build": "next build",
-		"start": "next start",
+		"start": "NODE_ENV=Production node src/app.js",
 		"lint": "next lint"
 	},
 	"author": "",

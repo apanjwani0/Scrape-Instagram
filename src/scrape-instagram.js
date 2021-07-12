@@ -1,8 +1,8 @@
-// const puppeteer = require('puppeteer-extra');
-// const StealthPlugin = require('puppeteer-extra-plugin-stealth');
-// puppeteer.use(StealthPlugin())
+const puppeteer = require('puppeteer-extra');
+const StealthPlugin = require('puppeteer-extra-plugin-stealth');
+puppeteer.use(StealthPlugin())
 
-const puppeteer = require("puppeteer");
+// const puppeteer = require("puppeteer");
 
 const fetch = require("node-fetch");
 //const request=require('request')

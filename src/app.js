@@ -1,6 +1,8 @@
+const { ENV_FILE } = require("./config");
+require("dotenv").config({ path: ENV_FILE });
+
 const express = require("express");
 const next = require("next");
-require("dotenv").config();
 
 const fs = require("fs");
 const path = require("path");

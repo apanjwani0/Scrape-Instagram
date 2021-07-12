@@ -2,13 +2,15 @@ import { Navbar } from "../components/Navbar.js";
 import Head from "next/head";
 import download from 'downloadjs';
 
+const BASIC_URL = process.env.BASIC_URL;
+
 function HomePage() {
 	const submitUsername = async (event) => {
 		event.preventDefault(); // don't redirect the page
 		// where we'll add our form logic
     const username = event.target.username.value
     const res = await fetch(
-      `http://localhost:3000/`,
+      BASIC_URL,
       {
         body: JSON.stringify({
           username,
@@ -22,7 +24,7 @@ function HomePage() {
     const result = await res.json();
     console.log("result-", result);
     if (result.success) {
-      const res = await fetch(`http://localhost:3000/${result.username}.zip`);
+      const res = await fetch(`${BASIC_URL}/${result.username}.zip`);
       const blob = await res.blob();
       download(blob, `${username}.zip`);
     }
