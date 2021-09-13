@@ -1,4 +1,4 @@
-const { ENV_FILE } = require("./config");
+const { ENV_FILE } = require("../config");
 require("dotenv").config({ path: ENV_FILE });
 
 const express = require("express");
@@ -11,7 +11,7 @@ const { fstat } = require("fs");
 const deleteZips = require("./deleteZips");
 const scrap = require("./scrape-instagram");
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
