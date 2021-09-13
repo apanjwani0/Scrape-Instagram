@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import Image from "next/image";
 
 export const Navbar = () => {
 	return (
@@ -8,24 +8,23 @@ export const Navbar = () => {
 					<Image
 						src="/images/logo.jpeg"
 						alt="Logo"
-            width="50"
-            height="50"
-					></Image>
-				</a>
+						width="50"
+						height="50"
+					></Image>{" "}
+				</a>{" "}
 				<ul className="navbar-nav">
 					<li className="nav-item">
 						<a className="nav-link" href="#">
-							Home
-						</a>
-					</li>
+							Home{" "}
+						</a>{" "}
+					</li>{" "}
 					<li className="nav-item">
 						<a className="nav-link" href="#">
-							About Developer
-						</a>
-					</li>
-				</ul>
-			</nav>
+							About Developer{" "}
+						</a>{" "}
+					</li>{" "}
+				</ul>{" "}
+			</nav>{" "}
 		</>
 	);
 };
-
